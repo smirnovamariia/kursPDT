@@ -10,8 +10,13 @@ namespace addressbook_web_tests
     {
         private string firstname;
         private string lastname;
-        private string nickname;
-        private string title;
+        private string nickname = "";
+        private string title = "";
+        private string address = "";
+        private string home = "";
+        private string mobile = "";
+        private string work = "";
+        private string email = "";
 
         public ContactData (string firstname, string lastname)
         {
@@ -37,6 +42,31 @@ namespace addressbook_web_tests
         {
             get { return title; }
             set { title = value; }
+        }
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+        public string Home
+        {
+            get { return home; }
+            set { home = value; }
+        }
+        public string Mobile
+        {
+            get { return mobile; }
+            set { mobile = value; }
+        }
+        public string Work
+        {
+            get { return work; }
+            set { work = value; }
+        }
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
         }
     }
 }
