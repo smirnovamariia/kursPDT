@@ -28,10 +28,5 @@ namespace addressbook_web_tests
         }
 
 
-        public void ReturnToHomePage()
-        {
-            driver.FindElement(By.LinkText("home page")).Click();
-        }
-
     }
 }

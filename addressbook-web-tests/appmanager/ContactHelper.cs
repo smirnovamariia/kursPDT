@@ -21,7 +21,28 @@ namespace addressbook_web_tests
             InitContactCreation();
             FillContactForm(contact);
             SubmitContactCreation();
-            manager.Navigator.ReturnToHomePage();
+            manager.Navigator.OpenHomePage();
+            manager.Auth.Logout();
+            return this;
+        }
+
+        public ContactHelper Modify(int p, ContactData newData)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContactForEdit(p);
+            FillContactForm(newData);
+            ModifyContact();
+            manager.Navigator.OpenHomePage();
+            manager.Auth.Logout();
+            return this;
+        }
+
+        public ContactHelper Remove(int p)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(p);
+            RemoveContact();
+            manager.Navigator.OpenHomePage();
             manager.Auth.Logout();
             return this;
         }
@@ -57,6 +78,9 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("nickname")).Click();
             driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(contact.Nickname);
+            driver.FindElement(By.Name("mobile")).Click();
+            driver.FindElement(By.Name("mobile")).Clear();
+            driver.FindElement(By.Name("mobile")).SendKeys(contact.Mobile);
             return this;
 
         }
@@ -67,5 +91,30 @@ namespace addressbook_web_tests
             return this;
         }
 
+
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
+            return this;
+        }
+
+        public ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        public ContactHelper SelectContactForEdit(int index)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
+            return this;
+        }
+
+        private ContactHelper ModifyContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Update']")).Click();
+            return this;
+        }
     }
 }

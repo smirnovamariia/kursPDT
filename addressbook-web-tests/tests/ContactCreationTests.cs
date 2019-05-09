@@ -23,5 +23,11 @@ namespace addressbook_web_tests
             app.Contact.Create(contact);
         }
 
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData("", "");
+            app.Contact.Create(contact);
+        }
     }
 }
