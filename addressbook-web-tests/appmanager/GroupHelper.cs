@@ -11,6 +11,7 @@ namespace addressbook_web_tests
 {
     public class GroupHelper : HelperBase
     {
+
         public GroupHelper(ApplicationManager manager) : base (manager)
         {
         }
@@ -22,7 +23,6 @@ namespace addressbook_web_tests
             FillGroupForm(group);
             SubmitGroupCreation();
             ReturnToGroupsPage();
-        //    manager.Auth.Logout();
             return this;
         }
 
@@ -74,6 +74,12 @@ namespace addressbook_web_tests
 
         public GroupHelper SelectGroup(int index)
         {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                GroupData newgroup = new GroupData("123");
+                newgroup.Header = "eerer";
+                newgroup.Footer = "rere";
+                Create(newgroup); }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }

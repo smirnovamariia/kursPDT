@@ -22,7 +22,6 @@ namespace addressbook_web_tests
             FillContactForm(contact);
             SubmitContactCreation();
             manager.Navigator.OpenHomePage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -33,7 +32,6 @@ namespace addressbook_web_tests
             FillContactForm(newData);
             ModifyContact();
             manager.Navigator.OpenHomePage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -43,7 +41,6 @@ namespace addressbook_web_tests
             SelectContact(p);
             RemoveContact();
             manager.Navigator.OpenHomePage();
-            manager.Auth.Logout();
             return this;
         }
         public ContactHelper InitContactCreation()
@@ -54,33 +51,15 @@ namespace addressbook_web_tests
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
-            driver.FindElement(By.Name("address")).Click();
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-            driver.FindElement(By.Name("home")).Click();
-            driver.FindElement(By.Name("home")).Clear();
-            driver.FindElement(By.Name("home")).SendKeys(contact.Home);
-            driver.FindElement(By.Name("email")).Click();
-            driver.FindElement(By.Name("email")).Clear();
-            driver.FindElement(By.Name("email")).SendKeys(contact.Email);
-            driver.FindElement(By.Name("work")).Click();
-            driver.FindElement(By.Name("work")).Clear();
-            driver.FindElement(By.Name("work")).SendKeys(contact.Work);
-            driver.FindElement(By.Name("title")).Click();
-            driver.FindElement(By.Name("title")).Clear();
-            driver.FindElement(By.Name("title")).SendKeys(contact.Title);
-            driver.FindElement(By.Name("nickname")).Click();
-            driver.FindElement(By.Name("nickname")).Clear();
-            driver.FindElement(By.Name("nickname")).SendKeys(contact.Nickname);
-            driver.FindElement(By.Name("mobile")).Click();
-            driver.FindElement(By.Name("mobile")).Clear();
-            driver.FindElement(By.Name("mobile")).SendKeys(contact.Mobile);
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("lastname"), contact.Lastname);
+            Type(By.Name("address"), contact.Address);
+            Type(By.Name("home"), contact.Home);
+            Type(By.Name("email"), contact.Email);
+            Type(By.Name("work"), contact.Work);
+            Type(By.Name("title"), contact.Title);
+            Type(By.Name("nickname"), contact.Nickname);
+            Type(By.Name("mobile"), contact.Mobile);
             return this;
 
         }
@@ -94,6 +73,11 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContact(int index)
         {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                ContactData newContact = new ContactData("987", "7897");
+                Create(newContact);
+            }
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
             return this;
         }
@@ -107,6 +91,11 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContactForEdit(int index)
         {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                ContactData newContact = new ContactData("987", "7897");
+                Create(newContact);
+            }
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
