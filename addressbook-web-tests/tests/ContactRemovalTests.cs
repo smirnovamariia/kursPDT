@@ -14,7 +14,11 @@ namespace addressbook_web_tests
         [Test]
         public void ContactRemovalTest()
         {
-            app.Contact.CreateBeforeModify();
+            if (!app.Contact.IsAnyElement())
+            {
+                app.Contact.Create(new ContactData("ert", "wwewrew"));
+            }
+           // app.Contact.CreateBeforeModify();
             app.Contact.Remove(2);
         }
     }

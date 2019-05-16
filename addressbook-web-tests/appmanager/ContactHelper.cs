@@ -95,7 +95,7 @@ namespace addressbook_web_tests
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
             return this;
         }
-        public ContactHelper CreateBeforeModify()
+        /*public ContactHelper CreateBeforeModify()
         {
             manager.Navigator.OpenHomePage();
             if (!IsElementPresent(By.Name("selected[]")))
@@ -105,6 +105,12 @@ namespace addressbook_web_tests
             }
          
             return this;
+        }*/
+        public bool IsAnyElement()
+        {
+            manager.Navigator.OpenHomePage();
+            return IsElementPresent(By.Name("selected[]"));
         }
+
     }
 }

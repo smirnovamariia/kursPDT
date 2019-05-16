@@ -14,7 +14,11 @@ namespace addressbook_web_tests
         [Test]
         public void GroupModificationTest()
         {
-            app.Groups.CreateBeforeModify();
+            //  app.Groups.CreateBeforeModify();
+            if (!app.Groups.IsAnyElement())
+            {
+                app.Groups.Create(new GroupData("444"));
+            }
             GroupData NewData = new GroupData("ppp");
             NewData.Header = "mmm";
             NewData.Footer = "vvv";

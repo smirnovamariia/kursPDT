@@ -96,7 +96,7 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
-         public GroupHelper CreateBeforeModify()
+        /* public GroupHelper CreateBeforeModify()
         {
             manager.Navigator.GoToGroupsPage();
             if (!IsElementPresent(By.Name("selected[]")))
@@ -105,6 +105,11 @@ namespace addressbook_web_tests
                 Create(newgroup);
             }
             return this;
+        }*/
+        public bool IsAnyElement()
+        {
+            manager.Navigator.GoToGroupsPage();
+            return IsElementPresent(By.Name("selected[]"));
         }
 
     }
