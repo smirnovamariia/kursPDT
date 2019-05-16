@@ -73,10 +73,6 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContact(int index)
         {
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                CreateBeforeSelect();
-            }
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
             return this;
         }
@@ -90,10 +86,6 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContactForEdit(int index)
         {
-                if (!IsElementPresent(By.Name("selected[]")))
-            {
-                CreateBeforeSelect();
-            }
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
@@ -103,10 +95,15 @@ namespace addressbook_web_tests
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
             return this;
         }
-        private ContactHelper CreateBeforeSelect()
+        public ContactHelper CreateBeforeModify()
         {
-            ContactData newContact = new ContactData("987", "7897");
-            Create(newContact);
+            manager.Navigator.OpenHomePage();
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                ContactData newContact = new ContactData("987", "7897");
+                Create(newContact);
+            }
+         
             return this;
         }
     }

@@ -13,6 +13,7 @@ namespace addressbook_web_tests
         [Test]
         public void ContactModificationTest()
         {
+            app.Contact.CreateBeforeModify();
             ContactData NewData = new ContactData("ppp","aaa");
             NewData.Address = "mmm";
             NewData.Email = "vvv";

@@ -74,12 +74,7 @@ namespace addressbook_web_tests
 
         public GroupHelper SelectGroup(int index)
         {
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                GroupData newgroup = new GroupData("123");
-                newgroup.Header = "eerer";
-                newgroup.Footer = "rere";
-                Create(newgroup); }
+            
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
@@ -99,6 +94,16 @@ namespace addressbook_web_tests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+         public GroupHelper CreateBeforeModify()
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                GroupData newgroup = new GroupData("123");
+                Create(newgroup);
+            }
             return this;
         }
 
