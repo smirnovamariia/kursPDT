@@ -14,7 +14,6 @@ namespace addressbook_web_tests
         [Test]
         public void GroupModificationTest()
         {
-            //  app.Groups.CreateBeforeModify();
             if (!app.Groups.IsAnyElement())
             {
                 app.Groups.Create(new GroupData("444"));
@@ -23,7 +22,15 @@ namespace addressbook_web_tests
             NewData.Header = "mmm";
             NewData.Footer = "vvv";
 
-            app.Groups.Modify(1, NewData);
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
+            app.Groups.Modify(0, NewData);
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = NewData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

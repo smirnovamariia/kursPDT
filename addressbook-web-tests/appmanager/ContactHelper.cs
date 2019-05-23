@@ -73,7 +73,7 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index+1) + "]/td/input")).Click();
             return this;
         }
 
@@ -86,7 +86,7 @@ namespace addressbook_web_tests
 
         public ContactHelper SelectContactForEdit(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index+1) + "]/td[8]/a/img")).Click();
             return this;
         }
 
@@ -95,21 +95,26 @@ namespace addressbook_web_tests
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
             return this;
         }
-        /*public ContactHelper CreateBeforeModify()
-        {
-            manager.Navigator.OpenHomePage();
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                ContactData newContact = new ContactData("987", "7897");
-                Create(newContact);
-            }
-         
-            return this;
-        }*/
+
         public bool IsAnyElement()
         {
             manager.Navigator.OpenHomePage();
             return IsElementPresent(By.Name("selected[]"));
+        }
+
+
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.OpenHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = entry]"));
+            foreach (IWebElement element in elements)
+            {
+                var lastName = element.FindElement(By.XPath(".//td[2]"));
+                var firstName = element.FindElement(By.XPath(".//td[3]"));
+                contacts.Add(new ContactData(lastName.Text, firstName.Text));
+            }
+            return contacts;
         }
 
     }

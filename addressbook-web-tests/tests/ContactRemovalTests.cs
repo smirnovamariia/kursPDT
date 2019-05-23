@@ -18,8 +18,14 @@ namespace addressbook_web_tests
             {
                 app.Contact.Create(new ContactData("ert", "wwewrew"));
             }
-           // app.Contact.CreateBeforeModify();
-            app.Contact.Remove(2);
+
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+            app.Contact.Remove(1);
+            List<ContactData> newContacts = app.Contact.GetContactList();
+            oldContacts.RemoveAt(0);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

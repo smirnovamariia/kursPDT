@@ -13,7 +13,7 @@ namespace addressbook_web_tests
         [Test]
         public void ContactModificationTest()
         {
-            //app.Contact.CreateBeforeModify();
+          
             if (!app.Contact.IsAnyElement())
             {
                 app.Contact.Create(new ContactData("ert","wwewrew"));
@@ -23,7 +23,14 @@ namespace addressbook_web_tests
             NewData.Email = "vvv";
             NewData.Mobile = "8999";
 
-            app.Contact.Modify(2, NewData);
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+            app.Contact.Modify(1, NewData);
+            List<ContactData> newContacts = app.Contact.GetContactList();
+            oldContacts[0].Firstname = NewData.Firstname;
+            oldContacts[0].Lastname = NewData.Lastname;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }
