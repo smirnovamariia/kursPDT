@@ -67,6 +67,7 @@ namespace addressbook_web_tests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -80,6 +81,7 @@ namespace addressbook_web_tests
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             driver.SwitchTo().Alert().Accept();
             return this;
         }
@@ -93,6 +95,7 @@ namespace addressbook_web_tests
         private ContactHelper ModifyContact()
         {
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -102,19 +105,24 @@ namespace addressbook_web_tests
             return IsElementPresent(By.Name("selected[]"));
         }
 
-
+        private List<ContactData> contactCache = null;
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.OpenHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = entry]"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                var lastName = element.FindElement(By.XPath(".//td[2]"));
-                var firstName = element.FindElement(By.XPath(".//td[3]"));
-                contacts.Add(new ContactData(lastName.Text, firstName.Text));
+                contactCache = new List<ContactData>();
+
+                manager.Navigator.OpenHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = entry]"));
+                foreach (IWebElement element in elements)
+                {
+                    var lastName = element.FindElement(By.XPath(".//td[2]"));
+                    var firstName = element.FindElement(By.XPath(".//td[3]"));
+                    contactCache.Add(new ContactData(lastName.Text, firstName.Text));
+                }
             }
-            return contacts;
+           
+            return new List<ContactData>(contactCache);
         }
 
     }

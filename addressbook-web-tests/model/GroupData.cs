@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace addressbook_web_tests
 {
-    public class GroupData : IEquatable <GroupData>, IComparable <GroupData>
+    public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-        private string name;
-        private string header = "";
-        private string footer = "";
 
-        public GroupData (string name)
+        public GroupData(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
         public bool Equals(GroupData other)
@@ -23,12 +20,12 @@ namespace addressbook_web_tests
             { return false; }
             if (Object.ReferenceEquals(this, other))
             { return true; }
-            return Name == other.Name; 
+            return Name == other.Name;
 
         }
         public override int GetHashCode()
         {
-            return Name.GetHashCode() ;
+            return Name.GetHashCode();
         }
         public override string ToString()
         {
@@ -40,38 +37,11 @@ namespace addressbook_web_tests
             { return 1; }
             return Name.CompareTo(other.Name);
         }
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
-        public string Header
-        {
-            get
-            {
-                return header;
-            }
-            set
-            {
-                header = value;
-            }
-        }
-        public string Footer
-        {
-            get
-            {
-                return footer;
-            }
-            set
-            {
-                footer = value;
-            }
-        }
+        public string Name { get; set; }
+        public string Header{get; set;}
+        public string Footer { get; set; }
+
+        public string Id { get; set; }
+ 
     }
 }

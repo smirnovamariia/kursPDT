@@ -8,20 +8,10 @@ namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname;
-        private string lastname;
-        private string nickname = "";
-        private string title = "";
-        private string address = "";
-        private string home = "";
-        private string mobile = "";
-        private string work = "";
-        private string email = "";
-
         public ContactData ( string lastname, string firstname)
         {
-            this.firstname = firstname;
-            this.lastname = lastname;
+            Firstname = firstname;
+            Lastname = lastname;
         }
         public bool Equals(ContactData other)
         {
@@ -48,52 +38,15 @@ namespace addressbook_web_tests
             return ContactFullName.CompareTo(other.ContactFullName);
 
         }
-        public string Firstname
-        {
-            get { return firstname; }
-            set { firstname = value; }
-        }
-        public string Lastname
-        {
-            get { return lastname; }
-            set { lastname = value; }
-        }
-        public string Nickname
-        {
-            get { return nickname; }
-            set { nickname = value; }
-        }
-        public string Title
-        {
-            get { return title; }
-            set { title = value; }
-        }
-        public string Address
-        {
-            get { return address; }
-            set { address = value; }
-        }
-        public string Home
-        {
-            get { return home; }
-            set { home = value; }
-        }
-        public string Mobile
-        {
-            get { return mobile; }
-            set { mobile = value; }
-        }
-        public string Work
-        {
-            get { return work; }
-            set { work = value; }
-        }
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
-
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Nickname { get; set; }
+        public string Title { get; set; }
+        public string Address { get; set; }
+        public string Home { get; set; }
+        public string Mobile { get; set; }
+        public string Work { get; set; }
+        public string Email { get; set; }
         public string ContactFullName
         {
             get { return  Lastname + Firstname; }
