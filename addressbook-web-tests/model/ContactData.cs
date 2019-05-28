@@ -17,10 +17,12 @@ namespace addressbook_web_tests
         {
             if (Object.ReferenceEquals(other, null))
             { return false; }
-            if (Object.ReferenceEquals(this, other))
-            { return true; }
-            return ContactFullName == other.ContactFullName;
-               
+            if (Object.ReferenceEquals(this.Lastname ,other.Lastname))
+                {if (Object.ReferenceEquals(this.Firstname, other.Firstname))
+                    { return true; }
+                }
+            return Lastname == other.Lastname && Firstname == other.Firstname;
+            
 
         }
         public override int GetHashCode()
@@ -35,7 +37,12 @@ namespace addressbook_web_tests
         {
             if (Object.ReferenceEquals(other, null))
             { return 1; }
-            return ContactFullName.CompareTo(other.ContactFullName);
+            if (Lastname.CompareTo(other.Lastname) ==0)
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
+            
+            return Lastname.CompareTo(other.Lastname);
 
         }
         public string Firstname { get; set; }
