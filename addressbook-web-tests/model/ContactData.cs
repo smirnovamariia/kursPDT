@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        public ContactData ( string lastname, string firstname)
+        private string allPhones;
+        private string allEmails;
+
+        public ContactData ( string firstname, string  lastname)
         {
             Firstname = firstname;
             Lastname = lastname;
@@ -17,32 +21,31 @@ namespace addressbook_web_tests
         {
             if (Object.ReferenceEquals(other, null))
             { return false; }
-            if (Object.ReferenceEquals(this.Lastname ,other.Lastname))
-                {if (Object.ReferenceEquals(this.Firstname, other.Firstname))
-                    { return true; }
-                }
-            return Lastname == other.Lastname && Firstname == other.Firstname;
+            if (Object.ReferenceEquals(this, other))
+            { return true; }
+
+            return Firstname == other.Firstname && Lastname == other.Lastname;
             
 
         }
         public override int GetHashCode()
         {
-            return ContactFullName.GetHashCode();
+            return Lastname.GetHashCode();
         }
         public override string ToString()
         {
-            return "full_name = " + Lastname + " " + Firstname  ;
+            return "full_name = "  + Firstname + " " + Lastname ;
         }
         public int CompareTo(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
             { return 1; }
-            if (Lastname.CompareTo(other.Lastname) ==0)
-            {
-                return Firstname.CompareTo(other.Firstname);
+           if (Lastname.CompareTo(other.Lastname) != 0)
+            {if (Lastname.CompareTo(other.Lastname)> 0)
+                    { return 1; }
+             else   { return -1; }
             }
-            
-            return Lastname.CompareTo(other.Lastname);
+            return Firstname.CompareTo(other.Firstname);
 
         }
         public string Firstname { get; set; }
@@ -54,9 +57,46 @@ namespace addressbook_web_tests
         public string Mobile { get; set; }
         public string Work { get; set; }
         public string Email { get; set; }
-        public string ContactFullName
+        public string Email2 { get; set; }
+        public string Email3 { get; set; }
+        public string AllPhones
         {
-            get { return  Lastname + Firstname; }
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(Home) + CleanUp(Mobile) + CleanUp(Work)).Trim();
+                }
+            }
+            set { allPhones = value; }
         }
+
+        private string CleanUp(string phone)
+        {
+            if (phone ==null || phone == "")
+            { return ""; }
+            return Regex.Replace(phone,"[ -()]", "") +"\r\n";
+        }
+
+        public string AllEmails
+        {
+            get
+            { if (allEmails != null)
+                { return allEmails; }
+                else { return (MakeEmail(Email) + MakeEmail(Email2) + MakeEmail(Email3)).Trim(); }
+            }
+            set { allEmails = value; }
+        }
+        private string MakeEmail(string email)
+        {
+            if (email == null || email == "")
+            { return ""; }
+            return email  + "\r\n";
+        }
+
     }
 }

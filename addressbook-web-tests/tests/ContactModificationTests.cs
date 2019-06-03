@@ -24,7 +24,7 @@ namespace addressbook_web_tests
             NewData.Mobile = "8999";
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
-            app.Contact.Modify(1, NewData);
+            app.Contact.Modify(0, NewData);
             List<ContactData> newContacts = app.Contact.GetContactList();
             oldContacts[0].Firstname = NewData.Firstname;
             oldContacts[0].Lastname = NewData.Lastname;
