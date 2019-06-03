@@ -11,12 +11,18 @@ namespace addressbook_web_tests
     {
         private string allPhones;
         private string allEmails;
+        private string fullContactInfo;
 
         public ContactData ( string firstname, string  lastname)
         {
             Firstname = firstname;
             Lastname = lastname;
         }
+
+        public ContactData()
+        {
+        }
+
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -91,11 +97,17 @@ namespace addressbook_web_tests
             }
             set { allEmails = value; }
         }
+
         private string MakeEmail(string email)
         {
             if (email == null || email == "")
             { return ""; }
             return email  + "\r\n";
+        }
+
+        private string CreateFullInfo(ContactData contact)
+        {
+            return contact.Lastname + contact.Firstname + contact.Address + contact.AllEmails + contact.AllPhones;
         }
 
     }
