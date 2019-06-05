@@ -104,11 +104,82 @@ namespace addressbook_web_tests
             { return ""; }
             return email  + "\r\n";
         }
-
-        private string CreateFullInfo(ContactData contact)
+        public string FullContactInfo
         {
-            return contact.Lastname + contact.Firstname + contact.Address + contact.AllEmails + contact.AllPhones;
+            get
+            {
+                if (fullContactInfo != null)
+                {
+                    return fullContactInfo;
+                }
+                else
+                {
+                    return UnionContactInfo(fullContactInfo).Trim();
+                }
+            }
+            set
+            {
+                fullContactInfo = value;
+            }
         }
 
+        public string UnionContactInfo(string fullContactInfo)
+        {
+            if (Firstname != null && Firstname != "")
+            { fullContactInfo = Firstname; }
+
+            if (Lastname != null && Lastname != "")
+            {
+                fullContactInfo= fullContactInfo + " " + Lastname + "\r\n";
+            }
+            if (Nickname != null && Nickname != "")
+            {
+                fullContactInfo = fullContactInfo + Nickname + "\r\n";
+            }
+            if (Title != null && Title != "")
+            {
+                fullContactInfo = fullContactInfo + Title + "\r\n";
+            }
+
+            if (Address != null && Address != "")
+            {
+                fullContactInfo = fullContactInfo+ Address.Trim() + "\r\n" ;
+            }
+            fullContactInfo = fullContactInfo + "\r\n";
+
+            if (Home != null && Home != "")
+            {
+                fullContactInfo = fullContactInfo + "H: " + Home + "\r\n";
+            }
+        
+            if (Mobile != null && Mobile != "")
+            {
+                fullContactInfo = fullContactInfo  + "M: " + Mobile + "\r\n";
+            }
+        
+            if (Work != null && Work != "")
+             {
+                fullContactInfo = fullContactInfo +  "W: " + Work + "\r\n" ;
+            }
+            
+            fullContactInfo = fullContactInfo + "\r\n";
+
+            if (Email != null && Email != "")
+            {
+                fullContactInfo = fullContactInfo + Email + "\r\n";
+            }
+
+            if (Email2 != null && Email2 != "")
+            {
+                fullContactInfo = fullContactInfo + Email2 + "\r\n";
+            }
+
+            if (Email3 != null && Email3 != "")
+            {
+                fullContactInfo = fullContactInfo + Email3 + "\r\n";
+            }
+
+            return fullContactInfo;
+        }
     }
 }
