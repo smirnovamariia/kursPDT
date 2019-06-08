@@ -11,17 +11,25 @@ namespace addressbook_web_tests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-          [Test]
-        public void ContactCreationTest()
+        public static IEnumerable<ContactData> RandomContactDataProvider()
         {
-            ContactData contact = new ContactData("yyy","uuu");
-            contact.Nickname = "ddd";
-            contact.Title = "zzz";
-            contact.Email = "fdf";
-            contact.Home = "rere";
-            contact.Work = "fsfs";
-            contact.Address = "jkjkjk";
-
+            List<ContactData> contact = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contact.Add(new ContactData(GenerateRandomString(20), GenerateRandomString(20))
+                {
+                    Address = GenerateRandomString(100),
+                    Home = GenerateRandomString(10),
+                    Email = GenerateRandomString(20),
+                    Work = GenerateRandomString(10)
+                });
+            }
+            return contact;
+        }
+        
+          [Test, TestCaseSource("RandomContactDataProvider")]
+        public void ContactCreationTest(ContactData contact)
+        {
             List<ContactData> oldContacts = app.Contact.GetContactList();
             app.Contact.Create(contact);
             List<ContactData> newContacts = app.Contact.GetContactList();
@@ -31,17 +39,6 @@ namespace addressbook_web_tests
             Assert.AreEqual(oldContacts, newContacts);
         }
 
-        [Test]
-        public void EmptyContactCreationTest()
-        {
-            ContactData contact = new ContactData("", "");
-            List<ContactData> oldContacts = app.Contact.GetContactList();
-            app.Contact.Create(contact);
-            List<ContactData> newContacts = app.Contact.GetContactList();
-            oldContacts.Add(contact);
-            oldContacts.Sort();
-            newContacts.Sort();
-            Assert.AreEqual(oldContacts, newContacts);
-        }
+
     }
 }
