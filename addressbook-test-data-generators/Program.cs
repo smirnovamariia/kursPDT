@@ -57,6 +57,10 @@ namespace addressbook_test_data_generators
                 {
                     writeGroupsToXmlFile(groups, writer);
                 }
+                else if (format == "xml" && dataType == "contact")
+                {
+                    writeContactsToXmlFile(contacts, writer);
+                }
                 else if (format == "json" && dataType == "group")
                 {
                     writeGroupsToJsonFile(groups, writer);
@@ -73,6 +77,11 @@ namespace addressbook_test_data_generators
                 writer.Close();
             }
            
+        }
+
+        private static void writeContactsToXmlFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
         }
 
         private static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writer)
