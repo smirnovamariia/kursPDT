@@ -23,14 +23,23 @@ namespace addressbook_web_tests
             NewData.Email = "vvv";
             NewData.Mobile = "8999";
 
-            List<ContactData> oldContacts = app.Contact.GetContactList();
-            app.Contact.Modify(0, NewData);
-            List<ContactData> newContacts = app.Contact.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAllContacts();
+            ContactData toBeModify = oldContacts[0];
+            app.Contact.Modify(toBeModify, NewData);
+            List<ContactData> newContacts = ContactData.GetAllContacts();
             oldContacts[0].Firstname = NewData.Firstname;
             oldContacts[0].Lastname = NewData.Lastname;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == toBeModify.Id)
+                {
+                    Assert.AreEqual(NewData.Firstname, contact.Firstname);
+                    Assert.AreEqual(NewData.Lastname, contact.Lastname);
+                }
+            }
         }
     }
 }

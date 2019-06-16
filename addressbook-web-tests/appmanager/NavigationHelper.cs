@@ -12,6 +12,7 @@ namespace addressbook_web_tests
     public class NavigationHelper : HelperBase
     {
         private string baseURL;
+        private string newURL;
         public NavigationHelper(ApplicationManager manager, string baseURL) :base(manager)
         {
             this.baseURL = baseURL;
@@ -34,6 +35,11 @@ namespace addressbook_web_tests
             driver.FindElement(By.LinkText("groups")).Click();
         }
 
+        public void OpenEditPage(string id)
+        {
+            newURL = baseURL + "edit.php?id=" + id ;
+            driver.Navigate().GoToUrl(newURL);
+        }
 
     }
 }

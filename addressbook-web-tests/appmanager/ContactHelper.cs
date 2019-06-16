@@ -26,6 +26,8 @@ namespace addressbook_web_tests
             return this;
         }
 
+     
+
         public ContactHelper Modify(int p, ContactData newData)
         {
             manager.Navigator.OpenHomePage();
@@ -36,11 +38,32 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public ContactHelper Modify(ContactData contact, ContactData newData)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.OpenEditPage(contact.Id);
+            //SelectContactForEdit(contact.Id);
+            FillContactForm(newData);
+            ModifyContact();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
+
 
         public ContactHelper Remove(int p)
         {
             manager.Navigator.OpenHomePage();
             SelectContact(p);
+            RemoveContact();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(contact.Id);
             RemoveContact();
             manager.Navigator.OpenHomePage();
             return this;
@@ -80,6 +103,12 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public ContactHelper SelectContact(string index)
+        {
+            driver.FindElement(By.Id(""+index+"")).Click();
+            return this;
+        }
+
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
@@ -110,6 +139,7 @@ namespace addressbook_web_tests
             contactCache = null;
             return this;
         }
+
 
         public bool IsAnyElement()
         {
