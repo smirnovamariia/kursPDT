@@ -9,11 +9,25 @@ namespace addressbook_web_tests
 {
     public class AddingContactToGroupTests : AuthTestBase
     {
+        private int numrow;
+
         [Test]
         public void TestAddingContactToGroup ()
         {
+            if (!app.Groups.IsAnyElement()) { app.Groups.Create(new GroupData("444")); }
+            if (!app.Contact.IsAnyElement()) { app.Contact.Create(new ContactData("ert", "wwewrew")); }
+
+  
+
             GroupData group = GroupData.GetAll()[0];
             List<ContactData> oldList = group.GetContacts();
+            if (group.CountContactsInGroups()== ContactData.GetAllContacts().Count())
+            {
+                numrow = ContactData.GetAllContacts().Count();
+                app.Contact.Create(new ContactData("new_f"+"_"+numrow, "new_l" + "_" + numrow));
+                 oldList = group.GetContacts();
+            }
+
             ContactData contact = ContactData.GetAllContacts().Except(oldList).First();
 
             app.Contact.AddContactToGroup(contact, group);

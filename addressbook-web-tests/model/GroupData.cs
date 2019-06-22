@@ -69,6 +69,16 @@ namespace addressbook_web_tests
                         select c).Distinct().ToList();
             }
         }
+        public int CountContactsInGroups()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                        select c).Count();
+            }
+        }
+
 
     }
 }

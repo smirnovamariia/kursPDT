@@ -208,5 +208,13 @@ namespace addressbook_web_tests
                 return (from c in db.Contacts.Where (x=> x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
+
+        public int GetCountContacts()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).Count();
+            }
+        }
     }
 }
