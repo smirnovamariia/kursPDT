@@ -14,8 +14,10 @@ namespace mantis_tests
          
         }
 
-        public ProjectData(string name)
+        public ProjectData(string Name, string Description)
         {
+            this.Name = Name;
+            this.Description = Description;
         }
 
 
@@ -29,11 +31,11 @@ namespace mantis_tests
             {
                 return 1;
             }
-            if (object.ReferenceEquals(this, other))
+            if (Name.CompareTo(other.Name) == 0)
             {
-                return 0;
+                return Description.CompareTo(other.Description);
             }
-            return 1;
+            return Name.CompareTo(other.Name);
         }
 
         public bool Equals(ProjectData other)
@@ -46,7 +48,7 @@ namespace mantis_tests
             {
                 return true;
             }
-            return Name == other.Name;
+            return (Name == other.Name) && (Description == other.Description);
         }
     }
 }

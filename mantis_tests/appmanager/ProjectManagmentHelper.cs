@@ -27,7 +27,7 @@ namespace mantis_tests
         {
            OpenToggMenu();
            OpenProjectPage();
-           RemoveProject(p);
+           SelectProject(p);
            SubmitRemoving();
         }
 
@@ -37,11 +37,11 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
         }
 
-        private void RemoveProject(int p)
+        private void SelectProject(int p)
         {
-            driver.FindElement(By.CssSelector("td > a")).Click(); //anyproject
-            // driver.FindElement(By.XPath("/html/body/table[1]/tbody/tr[" + (index) + "]/td[1]/a")).Click();
-           // driver.FindElement(By.XPath(".//table[1]/tbody/tr/td/a[contains(text(),'" + p + "')])")).Click();
+            // driver.FindElement(By.CssSelector("td > a")).Click(); //anyproject
+            driver.FindElement(By.XPath("//tr["+p+"]/td/a")).Click();
+            // driver.FindElement(By.XPath(".//table[1]/tbody/tr/td/a[contains(text(),'" + p + "')])")).Click();
         }
 
         private void SubmitAdding()
@@ -79,11 +79,11 @@ namespace mantis_tests
             List<ProjectData> projects = new List<ProjectData>();
 
             ICollection<IWebElement> elements = driver.FindElement(By.XPath(".//table[1]/tbody"))
-                .FindElements(By.XPath(".//tr/td"));
+                .FindElements(By.XPath(".//tr"));
 
             foreach (IWebElement element in elements)
             {
-                ProjectData project = new ProjectData(element.FindElement(By.XPath("//a[@href]")).Text);
+                ProjectData project = new ProjectData(element.FindElement(By.XPath("//td[1]")).Text, element.FindElement(By.XPath("//td[5]")).Text);
                 projects.Add(project);
             }
 
