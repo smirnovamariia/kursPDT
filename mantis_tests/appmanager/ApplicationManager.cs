@@ -21,20 +21,22 @@ namespace mantis_tests
         public JamesHelper James { get;  set; }
         public MailHelper Mail { get;  set; }
         public ProjectManagmentHelper Project { get;  set; }
+        public AdminHelper Admin { get;  set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager ()
         {
             driver = new ChromeDriver();
-            baseURL = "http://localhost/";
+            baseURL = "http://localhost/mantisbt-2.21.1/mantisbt-2.21.1";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
             Project = new ProjectManagmentHelper(this);
-           
+            Admin = new AdminHelper(this, baseURL);
             Auth = new LoginHelper(this);
+            API = new APIHelper(this);
 
         }
 
@@ -54,7 +56,7 @@ namespace mantis_tests
             if ( ! app.IsValueCreated )
             {
                   ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-2.21.1/mantisbt-2.21.1/login_page.php";
+                newInstance.driver.Url = newInstance.baseURL + "/login_page.php";
                 app.Value = newInstance;
             }
             return app.Value; 
@@ -65,5 +67,6 @@ namespace mantis_tests
 
        
         public LoginHelper Auth { get;  set; }
+        public APIHelper API { get;  set; }
     }
 }
