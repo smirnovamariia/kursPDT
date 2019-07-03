@@ -20,25 +20,25 @@ namespace mantis_tests
                 Password = "root"
             };
             app.Auth.Login(account);
-            ProjectData project = new ProjectData() { Name = "for_remove" };
-            if (! app.Project.IsExistProject(project))
+            
+            if (app.Project.GetProjectList(account).Count() ==0)
             {
-               
-                app.Project.Create(project);
+                ProjectData project = new ProjectData() { Name = "for_remove", Description = "for_remove_test" };
+                app.API.CreateProjectAPI(account, project);
             }
 
-         /*   List<ProjectData> oldprojects = new List<ProjectData>();
-            oldprojects = app.Project.GetProjectList();
-            ProjectData removedProject = oldprojects[2];
-*/
-            app.Project.Remove(2);
+              List<ProjectData> oldprojects = new List<ProjectData>();
+               oldprojects = app.Project.GetProjectList(account);
+               ProjectData removedProject = oldprojects[1];
+ 
+            app.Project.Remove(removedProject);
 
-           /* oldprojects.Remove(removedProject);
-            List<ProjectData> newprojects = app.Project.GetProjectList();
+            oldprojects.RemoveAt(1);
+             List<ProjectData> newprojects = app.Project.GetProjectList(account);
 
-            oldprojects.Sort();
-            newprojects.Sort();
-            Assert.AreEqual(oldprojects, newprojects);*/
+             oldprojects.Sort();
+             newprojects.Sort();
+             Assert.AreEqual(oldprojects, newprojects);
         }
     }
 }

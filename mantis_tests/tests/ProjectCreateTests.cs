@@ -24,13 +24,13 @@ namespace mantis_tests
                 project.Name = "test_" + count; }
 
             List<ProjectData> oldprojects = new List<ProjectData>();
-            oldprojects = app.Project.GetProjectList();
+            oldprojects = app.Project.GetProjectList(account);
 
 
             app.Project.Create(project);
 
             oldprojects.Add(project);
-            List<ProjectData> newprojects = app.Project.GetProjectList();
+            List<ProjectData> newprojects = app.Project.GetProjectList(account);
             oldprojects.Sort();
             newprojects.Sort();
             Assert.AreEqual(oldprojects, newprojects);

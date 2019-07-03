@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using mantis_tests.Mantis;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -11,6 +12,8 @@ namespace mantis_tests
 {
     public class ProjectManagmentHelper : HelperBase
     {
+        private Mantis.ProjectData[] allProjects;
+
         public ProjectManagmentHelper(ApplicationManager manager) : base(manager) { }
         public void Create(ProjectData project)
         {
@@ -23,11 +26,11 @@ namespace mantis_tests
             
         }
 
-        internal void Remove(int p)
+        internal void Remove(ProjectData project)
         {
            OpenToggMenu();
            OpenProjectPage();
-           SelectProject(p);
+           SelectProject(project.Name);
            SubmitRemoving();
         }
 
@@ -37,10 +40,10 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//input[@value='Удалить проект']")).Click();
         }
 
-        private void SelectProject(int p)
+        private void SelectProject(string name)
         {
             // driver.FindElement(By.CssSelector("td > a")).Click(); //anyproject
-            driver.FindElement(By.XPath("//tr["+p+"]/td/a")).Click();
+            driver.FindElement(By.XPath("//tr/td/a[contains(text(),'"+name+"')]")).Click();
             // driver.FindElement(By.XPath(".//table[1]/tbody/tr/td/a[contains(text(),'" + p + "')])")).Click();
         }
 
@@ -69,26 +72,25 @@ namespace mantis_tests
             int count = driver.FindElements(By.XPath("//a[@href]")).Count();
             return count;
         }
-        public List<ProjectData> GetProjectList()
+        public List<ProjectData> GetProjectList(AccountData account)
         {
-           OpenToggMenu();
-           
-            OpenProjectPage();
-
-            
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
             List<ProjectData> projects = new List<ProjectData>();
 
-            ICollection<IWebElement> elements = driver.FindElement(By.XPath(".//table[1]/tbody"))
-                .FindElements(By.XPath(".//tr"));
+            allProjects = client.mc_projects_get_user_accessible(account.Name, account.Password);
+          
 
-            foreach (IWebElement element in elements)
+            foreach (Mantis.ProjectData pr in allProjects)
             {
-                ProjectData project = new ProjectData(element.FindElement(By.XPath("//td[1]")).Text, element.FindElement(By.XPath("//td[5]")).Text);
+                ProjectData project = new ProjectData();
+                project.Name = pr.name;
+                project.Id = pr.id;
+                project.Description = pr.description;
                 projects.Add(project);
             }
 
 
-            return new List<ProjectData>(projects);
+            return projects;
         }
 
         public void OpenToggMenu()

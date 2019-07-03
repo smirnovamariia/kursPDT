@@ -21,5 +21,23 @@ namespace mantis_tests
             issue.project.id = project.Id;
             client.mc_issue_add(account.Name, account.Password, issue);
         }
+
+        public void CreateProjectAPI(AccountData account, ProjectData project)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+
+            Mantis.ProjectData projectAPI = new Mantis.ProjectData()
+            {
+                name = project.Name,
+                description = project.Description
+
+            };
+
+
+            client.mc_project_add(account.Name, account.Password, projectAPI);
+
+
+        }
+     
     }
 }
